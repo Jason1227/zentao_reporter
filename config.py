@@ -8,13 +8,14 @@
     :license: LICENSE_NAME, see LICENSE_FILE for more details.
 """
 import os
+
 # Get the app root path
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 
 class Config:
     # 被统计禅道用户列表，即禅道中zt_user表中的account
-    ZENTAO_USERS = ['admin']
+    ZENTAO_USERS = ['test1', 'dev1']
     # 禅道数据库设置
     ZENTAO_DB = {
         'host': '127.0.0.1',

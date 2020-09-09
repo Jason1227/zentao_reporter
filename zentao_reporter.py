@@ -107,9 +107,11 @@ class Reporter:
         }
         """
         stat = {}
-        query_detail = "SELECT `day`, `severity`, `bugopen`, `bugs` FROM `ztv_userdayopenbug` WHERE `account` = %s AND `day` BETWEEN %s AND %s"
+        query_detail = "SELECT `day`, `severity`, `bugopen`, `bugs` FROM `ztv_userdayopenbug` WHERE `account` = %s " \
+                       "AND `day` BETWEEN %s AND %s "
         stat['detail'] = self._query(query_detail, (user, from_date, to_date))
-        query_summary = "SELECT `severity`, SUM(`bugopen`) FROM `ztv_userdayopenbug` WHERE `account` = %s AND `day` BETWEEN %s AND %s GROUP BY severity"
+        query_summary = "SELECT `severity`, SUM(`bugopen`) FROM `ztv_userdayopenbug` WHERE `account` = %s AND `day` " \
+                        "BETWEEN %s AND %s GROUP BY severity "
         summary = self._query(query_summary, (user, from_date, to_date))
         stat['summary'] = {i[0]: i[1] for i in summary}
         stat['total'] = sum([i[1] for i in summary])
@@ -128,9 +130,11 @@ class Reporter:
         }
         """
         stat = {}
-        query_detail = "SELECT `day`, `severity`, `bugclose`, `bugs` FROM `ztv_userdayclosebug` WHERE `account` = %s AND `day` BETWEEN %s AND %s"
+        query_detail = "SELECT `day`, `severity`, `bugclose`, `bugs` FROM `ztv_userdayclosebug` WHERE `account` = %s " \
+                       "AND `day` BETWEEN %s AND %s "
         stat['detail'] = self._query(query_detail, (user, from_date, to_date))
-        query_summary = "SELECT `severity`, SUM(`bugclose`) FROM `ztv_userdayclosebug` WHERE `account` = %s AND `day` BETWEEN %s AND %s GROUP BY severity"
+        query_summary = "SELECT `severity`, SUM(`bugclose`) FROM `ztv_userdayclosebug` WHERE `account` = %s AND `day` " \
+                        "BETWEEN %s AND %s GROUP BY severity "
         summary = self._query(query_summary, (user, from_date, to_date))
         stat['summary'] = {i[0]: i[1] for i in summary}
         stat['total'] = sum([i[1] for i in summary])
@@ -149,9 +153,11 @@ class Reporter:
         }
         """
         stat = {}
-        query_detail = "SELECT `day`, `severity`, `bugactive`, `bugs` FROM `ztv_userdayactivebug` WHERE `account` = %s AND `day` BETWEEN %s AND %s"
+        query_detail = "SELECT `day`, `severity`, `bugactive`, `bugs` FROM `ztv_userdayactivebug` WHERE `account` = " \
+                       "%s AND `day` BETWEEN %s AND %s "
         stat['detail'] = self._query(query_detail, (user, from_date, to_date))
-        query_summary = "SELECT `severity`, SUM(`bugactive`) FROM `ztv_userdayactivebug` WHERE `account` = %s AND `day` BETWEEN %s AND %s GROUP BY severity"
+        query_summary = "SELECT `severity`, SUM(`bugactive`) FROM `ztv_userdayactivebug` WHERE `account` = %s AND " \
+                        "`day` BETWEEN %s AND %s GROUP BY severity "
         summary = self._query(query_summary, (user, from_date, to_date))
         stat['summary'] = {i[0]: i[1] for i in summary}
         stat['total'] = sum([i[1] for i in summary])
@@ -170,9 +176,11 @@ class Reporter:
         }
         """
         stat = {}
-        query_detail = "SELECT `day`, `severity`, `bugresolve`, `bugs` FROM `ztv_userdayresolvebug` WHERE `account` = %s AND `day` BETWEEN %s AND %s"
+        query_detail = "SELECT `day`, `severity`, `bugresolve`, `bugs` FROM `ztv_userdayresolvebug` WHERE `account` = " \
+                       "%s AND `day` BETWEEN %s AND %s "
         stat['detail'] = self._query(query_detail, (user, from_date, to_date))
-        query_summary = "SELECT `severity`, SUM(`bugresolve`) FROM `ztv_userdayresolvebug` WHERE `account` = %s AND `day` BETWEEN %s AND %s GROUP BY severity"
+        query_summary = "SELECT `severity`, SUM(`bugresolve`) FROM `ztv_userdayresolvebug` WHERE `account` = %s AND " \
+                        "`day` BETWEEN %s AND %s GROUP BY severity "
         summary = self._query(query_summary, (user, from_date, to_date))
         stat['summary'] = {i[0]: i[1] for i in summary}
         stat['total'] = sum([i[1] for i in summary])
@@ -208,7 +216,8 @@ class Reporter:
         }
         """
         stat = {}
-        query_detail = "SELECT `day`, `taskid`, `taskname`, `consumed` FROM `ztv_userdaydotask` WHERE `account` = %s AND `day` BETWEEN %s AND %s"
+        query_detail = "SELECT `day`, `taskid`, `taskname`, `consumed` FROM `ztv_userdaydotask` WHERE `account` = %s " \
+                       "AND `day` BETWEEN %s AND %s "
         stat['detail'] = self._query(query_detail, (user, from_date, to_date))
         stat['total_consumed'] = sum([i[3] for i in stat['detail']])
         return stat
@@ -243,10 +252,17 @@ class Reporter:
         stat = {}
         deadline = datetime.strptime(to_date, '%Y-%m-%d') + timedelta(days=self.config.SHORT_PERIOD_DAY)
         deadline_str = deadline.strftime('%Y-%m-%d')
-        query_detail = "select `zt_task`.`deadline` AS `deadline`,`zt_task`.`id` AS `id`,`zt_task`.`name` AS `name`,`zt_task`.`status` AS `status`,`zt_task`.`estimate` AS `estimate`,`zt_task`.`consumed` AS `consumed`,`zt_task`.`left` AS `left` from `zt_task` where ((`zt_task`.`assignedTo` = %s) AND (`zt_task`.`parent` <> -1) AND (`zt_task`.`deadline` <= %s) and (`zt_task`.`status` not in ('closed','cancel')));"
+        query_detail = "select `zt_task`.`deadline` AS `deadline`,`zt_task`.`id` AS `id`,`zt_task`.`name` AS `name`," \
+                       "`zt_task`.`status` AS `status`,`zt_task`.`estimate` AS `estimate`,`zt_task`.`consumed` AS " \
+                       "`consumed`,`zt_task`.`left` AS `left` from `zt_task` where ((`zt_task`.`assignedTo` = %s) AND " \
+                       "(`zt_task`.`parent` <> -1) AND (`zt_task`.`deadline` <= %s) and (`zt_task`.`status` not in (" \
+                       "'closed','cancel'))); "
         detail = self._query(query_detail, (user, deadline_str))
         stat['detail'] = detail
-        query_summary = "select ROUND(sum(`zt_task`.`estimate`), 2) AS `estimate`,ROUND(sum(`zt_task`.`consumed`),2) AS `consumed`,ROUND(sum(`zt_task`.`left`),2) AS `left` from `zt_task` where ((`zt_task`.`assignedTo` = %s) AND (`zt_task`.`parent` <> -1) AND (`zt_task`.`deadline` <= %s) and (`zt_task`.`status` not in ('closed','cancel')))"
+        query_summary = "select ROUND(sum(`zt_task`.`estimate`), 2) AS `estimate`,ROUND(sum(`zt_task`.`consumed`)," \
+                        "2) AS `consumed`,ROUND(sum(`zt_task`.`left`),2) AS `left` from `zt_task` where ((" \
+                        "`zt_task`.`assignedTo` = %s) AND (`zt_task`.`parent` <> -1) AND (`zt_task`.`deadline` <= %s) " \
+                        "and (`zt_task`.`status` not in ('closed','cancel'))) "
         summary = self._query(query_summary, (user, deadline_str))
         if len(summary) > 0:
             stat['summary'] = {
