@@ -14,14 +14,14 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 class Config:
     # 被统计禅道用户列表，即禅道中zt_user表中的account
-    ZENTAO_USERS = ['yuanxiaoju', 'majian', 'liyuan', 'liuwenli', 'tianguoqing', 'liupei', 'xieting', 'yiguidong']
+    ZENTAO_USERS = ['admin']
     # 禅道数据库设置
     ZENTAO_DB = {
         'host': '127.0.0.1',
         'port': 3306,
         'db': 'zentao',
         'user': 'root',
-        'passwd': '123edcxz',
+        'passwd': '123456',
         'charset': 'utf8',
     }
     # 报告生成路径
